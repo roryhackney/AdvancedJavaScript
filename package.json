@@ -1,0 +1,22 @@
+{
+  "name": "it122",
+  "version": "1.0.0",
+  "description": "learning node and advanced javascript in it122",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roryhackney/it122.git"
+  },
+  "author": "Rory Hackney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roryhackney/it122/issues"
+  },
+  "homepage": "https://github.com/roryhackney/it122#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
