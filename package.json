@@ -1,5 +1,6 @@
 {
   "name": "it122",
+  "type": "module",
   "version": "1.0.0",
   "description": "learning node and advanced javascript in it122",
   "main": "index.js",
