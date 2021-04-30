@@ -1,5 +1,4 @@
 export {getAll, getItem};
-import qs from 'qs';
 
 let dinos = [
     {"name": "tyrannosaurus rex",
@@ -24,11 +23,9 @@ let dinos = [
     "cool": 1}
 ]
 
-let getAll = () => JSON.stringify(dinos);
+let getAll = () => dinos;
 
-let getItem = urlpath => {
-    let url = urlpath.split("?");
-    let query = qs.parse(url[1]);
-    let found = dinos.find(dino => {return dino.name===query.name});
-    return JSON.stringify(found);
+let getItem = dinoname => {
+    let found = dinos.find(dino => {return dino.name===dinoname.toLowerCase()});
+    return found;
 }
