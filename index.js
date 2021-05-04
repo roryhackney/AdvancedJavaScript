@@ -33,7 +33,7 @@ app.get('/detail', (req, res) => {
         let dino = getItem(query.name);
         // console.log(dino);
         if (dino===undefined){res.send("Dino Not Found");}
-        else {res.render('detail', {dino: dino});};
+        else {res.render('detail', {dino: dino});}
     }
 });
 
