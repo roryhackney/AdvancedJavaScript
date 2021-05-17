@@ -1,5 +1,6 @@
 'use strict'
 import {getAll, getItem} from "./data.js";
+import {Dinosaur} from './models/Dinosaur.js';
 
 import exphbs from 'express-handlebars'; //handlebars
 import express from 'express'; //express framework
@@ -14,10 +15,11 @@ app.set("view engine", "handlebars");
 
 
 //routes
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
     res.type('text/html');
-    let dinos= getAll();
-    res.render('home', {dinos: dinos, name: dinos.name})
+    Dinosaur.find({}).lean().then((dinos) => {
+        res.render('home', {dinos});
+    }).catch(err => next(err));
 });
 
 app.get('/about', (req, res) => {
@@ -25,17 +27,27 @@ app.get('/about', (req, res) => {
     res.send("Rory Hackney is a web developer, programmer, and artist from Seattle, Washington. They enjoy kissing cats, drawing comics, and being too anxious to function.");
 });
 
-app.get('/detail', (req, res) => {
+app.get('/detail', (req, res, next) => {
     res.type('text/html');
     let query = req.query;
     if(query.name === undefined){res.send('Dino Not Found')}
-    else {
-        let dino = getItem(query.name);
-        // console.log(dino);
-        if (dino===undefined){res.send("Dino Not Found");}
-        else {res.render('detail', {dino: dino});}
-    }
+    Dinosaur.findOne({"name": query.name}).lean().then(dino => {
+        if(dino === null){res.send('Dino Not Found');}
+        res.render('detail', {dino: dino});
+    }).catch(err => next(err));
 });
+
+app.get('/delete', (req, res, next) => {
+    res.type('text/plain');
+    let query = req.query;
+    if(query.name === undefined){res.end('Dino Not Found');}
+    Dinosaur.findOne({"name": query.name}).lean().then(dino => {
+        if(dino === null){res.end('Dino Not Found');}
+        let del = Dinosaur.deleteOne({"name":query.name});
+        if(del.deletedCount === 1){res.end(req.name + ' deleted successfully.')}
+        else {res.end(req.name + ' was not deleted due to an unknown error.')}
+    }).catch(err  => next(err))
+})
 
 app.use((req, res) => {
     res.type('text/plain');

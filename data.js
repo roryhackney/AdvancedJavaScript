@@ -1,3 +1,5 @@
+import { Dinosaur } from "./models/Dinosaur.js";
+
 export {getAll, getItem, deleteItem, addItem};
 
 /*TESTING JOI DATA VALIDATION
@@ -47,30 +49,40 @@ let getItem = dinoname => {
 
 let deleteItem = dinoname => {
     if(dinoname===undefined){
-        return "Error: Please provide the name of the item to be deleted.";
+        return {"success": false, "message":"Please provide the name of the item to be deleted."};
     }
     if(typeof dinoname !== 'string'){
-        return "Error: Please enter a string.";
+        return {"success": false, "message":"Please enter a string."};
     }
     let myDino= getItem(dinoname);
     if(myDino===undefined){
-        return "Error: " + dinoname + " does not exist.";
+        return {"success": false, "message": "Error: " + dinoname + " does not exist."};
     }
     let index = dinos.indexOf(myDino);
     dinos.splice(index, 1);
-    return dinoname + " has been successfully deleted.";
+    return {"success": true, "message": dinoname + " has been successfully deleted."};
 };
 
 let addItem = (dinoname, length, weight, cool) => {
     if(typeof dinoname !== 'string' || typeof length !== 'string' || typeof weight !== 'string' || typeof cool !== 'number'){
-        return "Please enter a name, length with unit, weight with unit, and rating (1-5)" +
-        "\nExample: addItem('Pterodactyl', '13 feet', '88 pounds', 5);";
+        return {"success": false, "message": "Please enter a name, length with unit, weight with unit, and rating (1-5)" +
+        "\nExample: addItem('Pterodactyl', '13 feet', '88 pounds', 5);"};
     }
     let found = getItem(dinoname);
     if(found !== undefined){
-        return dinoname + ' already exists.';
+        return {"success": false, "message": dinoname + ' already exists.'};
     }
     let myObj = {"name": dinoname.toLowerCase(), "length": length.toLowerCase(), "weight": weight.toLowerCase(), "cool": cool};
     dinos.push(myObj);
-    return dinoname.toLowerCase() + ' has been successfully added.';
+    return {"success": true, "message": dinoname.toLowerCase() + ' has been successfully added.'};
 };
+
+//test data - added to DB
+// let ptero= {"name": "pterodactyl", "length":"13 feet", "weight": "88 pounds", "cool": 5};
+// let iguan = {"name":"iguanadon", "length":"30 feet", "weight": "4 tons", "cool": 2};
+// let bronto = {"name": "brontosaurus", "length": "72 feet", "weight": "17 tons", "cool": 4};
+// let gall = {"name":"gallimimus", "length":"19 feet", "weight": ".5 ton", "cool": 5};
+// let mosa = {"name":"mosasaurus", "length": "55 feet", "weight":"15 tons", "cool": 5};
+// let rap = {"name":"raptorex", "length":"9 feet", "weight":"150 pounds", "cool":4};
+// let co = {"name":"coelophysis", "length":"9 feet", "weight":"40 pounds", "cool": 3};
+// let ank = {"name":"ankylosaurus", "length":"35 feet", "weight": "4 tons", "cool": 4};
