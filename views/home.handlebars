@@ -3,14 +3,44 @@
         <title>Best Dinosaurs</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <!-- Don't use this in production: -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <link rel="stylesheet" href="http://localhost:3000/styles.css">
     </head>
     <body>
         <h1>Best Dinosaurs</h1>
-        <ul>
+        <!-- <ul>
             {{#each dinos}}
-            <li><a href="http://localhost:3000/detail?name={{name}}">{{name}}</a></li>
+            <li><a href="/detail?name={{name}}">{{name}}</a></li>
             {{/each}}
-        </ul>
+        </ul> -->
+        <hr>
+        <div id="root"></div>
+        <script type="text/babel">
+            const dinos = {{{dinos}}};
+            const Dinos = (props) => {
+                const listItems = props.data.map((item) =>
+                //add id so can access unique key in HTML 
+                    <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.name}</li>);
+                return <ul>{listItems}</ul>;
+            }
+            //click event handler pass in event object
+            //target: DOM element that was clicked on
+            const showDetail = (event) => {
+                //const url=<a href={"/detail?name="+item.name}>{item.name}</a>
+                //console.log(event.target.id);
+                //console.log(event.target.innerText);
+                window.location.href="/detail?name="+event.target.innerText;
+            }
+
+
+            ReactDOM.render( //don't pass functions with name(), just as name
+                <div><Dinos data={dinos} clickHandler={showDetail}/></div>,
+                document.getElementById('root')
+            );
+        </script>
+        
     </body>
 </html>

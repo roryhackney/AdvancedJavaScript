@@ -24,7 +24,8 @@ app.use('/api', cors()); //set access control allow origin header for api routes
 app.get('/', (req, res, next) => {
     res.type('text/html');
     Dinosaur.find({}).lean().then((dinos) => {
-        res.render('home', {dinos});
+        // res.render('home', {dinos});
+        res.render('home', {dinos: JSON.stringify(dinos)});
     }).catch(err => next(err));
 });
 
@@ -87,8 +88,6 @@ app.get('/api/dinos/delete/:name', (req, res) => {
     });
 });
 
-//readd: chicken, triceratops, stegosaurus
-
 app.get('/api/dinos/add/:name&:length&:weight&:cool', function(req, res) {
     let data = {
         "name": req.params.name,
@@ -118,10 +117,6 @@ app.get('/api/dinos/add/:name&:length&:weight&:cool', function(req, res) {
             });
         }
     });
-
-    //else add new doc
-    
-
 });
 
 

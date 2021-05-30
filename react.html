@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Testing React</title>
+    <!--CDNs-->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <h1>Demo</h1> <!--can't be changed as is not in root-->
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const myGreeting=<h2 className="greeting">Hello nerd</h2>;
+        //pass in props (could be multiple), then access props.item 
+        const Greeting = (props) => { //functions must be capitalized
+            if(props.user) { //if user has a value
+                return <h2>Hello {props.user}</h2>; //pass in parameters
+            }
+            return <h2>Hello stranger</h2>;
+        };
+        const myStyle = { //styles should be camelCase and pass as JS object
+            backgroundColor: 'lightblue',
+            width: '50%',
+            borderRadius: '5px',
+            margin: '0 auto',
+            padding: '10px'
+        };
+
+        //list items must have unique key that doesnt change when sorted
+        // const names= ["Bob", "Rory", "Alexia", "Nathaniel"];
+        // //use map(item) to enclose each name in a <li> tag with key=name
+        // const myList = names.map((item) => <li key={item}>{item}</li>);
+
+        //pure function version (allows passing names, doesn't change input)
+        const names= ["Bob", "Rory", "Alexia", "Nathaniel"];
+        const ListNames = (props) => {
+            return props.names.map((item) => <li key={item}>{item}</li>);
+        }
+
+
+
+
+        ReactDOM.render(
+            // greeting,
+            // <Greeting />, //Can use /> to close tag with no content
+            //multiple elements must be enclosed in a parent
+            <div style={myStyle}>
+                {myGreeting}
+                <Greeting />
+                <Greeting user="Rory"/>
+                <ul><ListNames names={names}/></ul>
+            </div>,
+            //last line must have comma
+            document.getElementById('root') //renders in root div
+        );
+    </script>
+
+
+
+    <!--This is good for trying React, but for a production setup with JSX:
+    www.reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+    Large project using toolchain:
+    www.reactjs.org/docs/create-a-new-react-app.html
+
+    Babel is needed for JSX fyi - translates stuff in text/babel into Javascript-->
+</body>
+</html>
