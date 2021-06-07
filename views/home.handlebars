@@ -11,33 +11,77 @@
     </head>
     <body>
         <h1>Best Dinosaurs</h1>
+
         <!-- <ul>
             {{#each dinos}}
             <li><a href="/detail?name={{name}}">{{name}}</a></li>
             {{/each}}
         </ul> -->
-        <hr>
+
         <div id="root"></div>
         <script type="text/babel">
-            const dinos = {{{dinos}}};
+            //const dinos = {{{dinos}}};
             const Dinos = (props) => {
                 const listItems = props.data.map((item) =>
                 //add id so can access unique key in HTML 
                     <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.name}</li>);
                 return <ul>{listItems}</ul>;
-            }
+            };
             //click event handler pass in event object
             //target: DOM element that was clicked on
-            const showDetail = (event) => {
-                //const url=<a href={"/detail?name="+item.name}>{item.name}</a>
-                //console.log(event.target.id);
-                //console.log(event.target.innerText);
-                window.location.href="/detail?name="+event.target.innerText;
-            }
+
+            const MyDetails = (props) => {
+                return <div>
+                    <h2>Details</h2>
+                    <ul>
+                        <li>name: {props.item.name}</li>
+                        <li>length: {props.item.length}</li>
+                        <li>weight: {props.item.weight}</li>
+                        <li>rating: {props.item.cool}</li>
+                    </ul>
+                </div>
+            };
+
+            class DinoApp extends React.Component {
+                constructor(props) {
+                    //makes it possible to use this
+                    super(props);
+                    //set initial state using data from server app
+                    this.state = {
+                        dinos: {{{dinos}}},
+                        currentDino: {}
+                    };
+                    this.selectItem = this.selectItem.bind(this);
+                }
+
+                selectItem (event) {
+                    //const url=<a href={"/detail?name="+item.name}>{item.name}</a>
+                    //console.log(event.target.id);
+                    //console.log(event.target.innerText);
+                    //window.location.href="/detail?name="+event.target.innerText;
+                    const found = this.state.dinos.find((item) => {
+                        return item.name === event.target.innerText;
+                    });
+                    this.setState({currentDino: found});
+                }
+
+                render() {
+                    return (
+                        <div>
+                        <h2>Inventory</h2>
+                        <Dinos data={this.state.dinos} clickHandler={this.selectItem} />
+                        <MyDetails item={this.state.currentDino}/>
+                        </div>
+                    );
+                }
+            };
 
 
             ReactDOM.render( //don't pass functions with name(), just as name
-                <div><Dinos data={dinos} clickHandler={showDetail}/></div>,
+                //<div><Dinos data={dinos} clickHandler={showDetail}/></div>,
+                <div>
+                    <DinoApp />
+                </div>,
                 document.getElementById('root')
             );
         </script>
