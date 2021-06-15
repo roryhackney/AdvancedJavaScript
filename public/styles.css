@@ -10,7 +10,7 @@ body {
     background-color: #F2F2F2;
 }
 
-ul {
+ul, form {
     background-color: #afc0e4;
     width: 500px;
     margin: 5px auto;
@@ -18,7 +18,19 @@ ul {
     border-radius: 3px;
 }
 
+button {
+    background-color: #afc0e4;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
 li {
     list-style-type: none;
     padding: 2px;
+}
+
+input {
+    display: block;
+    margin: 5px auto;
 }

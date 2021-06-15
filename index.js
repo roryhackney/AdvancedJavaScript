@@ -77,17 +77,18 @@ app.get('/api/dinos/detail/:name', (req, res) => {
     });
 });
 
-app.get('/api/dinos/delete/:name', (req, res) => {
-    Dinosaur.findOne({"name": req.params.name}).lean()
+app.get('/api/dinos/delete/:_id', (req, res) => {
+    Dinosaur.findOne({"_id": req.params._id}).lean()
     .then((myobj) => {
-        if(myobj === null){return res.status(500).send(req.params.name + ' is not in the database.')};
-        Dinosaur.findOneAndDelete({"name": req.params.name}, (err, delItem) => {
+        if(myobj === null){return res.status(500).send(req.params._id + ' is not in the database.')};
+        Dinosaur.deleteOne({"_id": req.params._id}, (err, result) => {
             if(err){return res.status(500).send('An unknown error occurred')};
-            res.json("Successfuly deleted: " + delItem);
+            res.json({_id: req.params._id, deleted: result});
         });
     });
 });
 
+//bad, please use app.post(/api/dinos/addtesting)
 app.get('/api/dinos/add/:name&:length&:weight&:cool', function(req, res) {
     let data = {
         "name": req.params.name,
@@ -120,6 +121,25 @@ app.get('/api/dinos/add/:name&:length&:weight&:cool', function(req, res) {
 });
 
 
+//improved add route
+app.post('/api/dinos/addtesting/', (req, res, next) => {
+    //console.log("api");
+    //console.log(req.body);
+    if(!req.body._id) { //insert new doc
+        //console.log("new dino");
+        let newDino = new Dinosaur(req.body);
+        newDino.save((err, newDino) => {
+            if(err) return next(err);
+            res.json({updated: 0, _id: newDino._id});
+        });
+    } else { //update old doc
+        //console.log("update");
+        Dinosaur.updateOne({_id: req.body._id}, {name: req.body.name, length: req.body.length, weight: req.body.weight, cool: req.body.cool}, (err, result) => {
+        if(err) return next(err);
+        res.json({updated: result.nModified, _id: req.body._id});
+        });
+    }
+});
 
 //app.use must be at bottom
 

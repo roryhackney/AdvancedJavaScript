@@ -31,7 +31,7 @@
             //target: DOM element that was clicked on
 
             const MyDetails = (props) => {
-                return <div>
+                /* return <div>
                     <h2>Details</h2>
                     <ul>
                         <li>name: {props.item.name}</li>
@@ -39,6 +39,23 @@
                         <li>weight: {props.item.weight}</li>
                         <li>rating: {props.item.cool}</li>
                     </ul>
+                </div> */
+                return <div>
+                    <h2>Details</h2>
+                    <form>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" name="name" value={props.item.name || ""} onChange={props.handleChange}></input>
+                        <label htmlFor="length">Length</label>
+                        <input type="text" id="length" name="length" value={props.item.length || ""} onChange={props.handleChange}></input>
+                        <label htmlFor="weight">Weight</label>
+                        <input type="text" id="weight" name="weight" value={props.item.weight || ""} onChange={props.handleChange}></input>
+                        <label htmlFor="cool">Rating</label>
+                        <input type="text" id="cool" name="cool" value={props.item.cool || ""} onChange={props.handleChange}></input>
+                    </form>
+                    <button name="clear" onClick={props.clearForm}>Clear</button>
+                    <button name="save" onClick={props.saveItem}>Save</button>
+                    <button name="delete" onClick={props.deleteItem}>Delete</button>
+                
                 </div>
             };
 
@@ -52,9 +69,12 @@
                         currentDino: {}
                     };
                     this.selectItem = this.selectItem.bind(this);
+                    this.handleChange = this.handleChange.bind(this);
+                    this.saveItem = this.saveItem.bind(this);
+                    this.deleteItem = this.deleteItem.bind(this);
                 }
 
-                selectItem (event) {
+                selectItem =  (event) => {
                     //const url=<a href={"/detail?name="+item.name}>{item.name}</a>
                     //console.log(event.target.id);
                     //console.log(event.target.innerText);
@@ -65,12 +85,79 @@
                     this.setState({currentDino: found});
                 }
 
+                handleChange = (event) => {
+                    let newDino = this.state.currentDino;
+                    newDino[event.target.name] = event.target.value;
+                    this.setState({currentDino: newDino});
+                    //console.log(event.target.name);
+                    //console.log(event.target.value);
+                    //console.log(this.state.currentDino);
+                }
+
+                clearForm = () => {
+                    this.setState({currentDino: {}});
+                }
+
+                saveItem = () => {
+                    //console.log('save');
+                    //console.log(this.state.currentDino);
+                    //console.log(JSON.stringify(this.state.currentDino));
+                    if(JSON.stringify(this.state.currentDino) === '{}'){
+                        console.log('empty');
+                        return;
+                    } else {
+                        //console.log('not empty');
+                        let change = this.state.currentDino;
+                        fetch('/api/dinos/addtesting/', {
+                            method: "POST",
+                            headers: {'Content-Type':'application/json'},
+                            body: JSON.stringify(change)
+                        }).then(res => res.json())
+                        .then((json) => {
+                            console.log(json);
+                            if(json.updated === 0){
+                                change._id = json._id;
+                                let newList = this.state.dinos;
+                                newList.push(change);
+                                this.setState({dinos: newList, currentDino: {}});
+                            }
+                        })
+                    }
+                }
+                
+                deleteItem = () => {
+                    console.log("delete");
+                    if(JSON.stringify(this.state.currentDino) === '{}'){
+                        console.log('empty');
+                        return;
+                    }
+                    let delId = this.state.currentDino._id;
+                    fetch("/api/dinos/delete/" + delId)
+                    .then(res => res.json())
+                    .then((json) => {
+                        console.log(json.deleted);
+                        console.log(json.deleted.deletedCount);
+                        if(json.deleted.deletedCount > 0){
+                            let newList = this.state.dinos.filter(item => {
+                                return item._id != delId;
+                            });
+                            this.setState({dinos: newList, currentDino: {}});
+                        }
+                        });
+                };
+
                 render() {
                     return (
                         <div>
                         <h2>Inventory</h2>
                         <Dinos data={this.state.dinos} clickHandler={this.selectItem} />
-                        <MyDetails item={this.state.currentDino}/>
+                        <MyDetails
+                            item={this.state.currentDino}
+                            handleChange={this.handleChange}
+                            clearForm={this.clearForm}
+                            saveItem={this.saveItem}
+                            deleteItem={this.deleteItem}
+                        />
                         </div>
                     );
                 }
