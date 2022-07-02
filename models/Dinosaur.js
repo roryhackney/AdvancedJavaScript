@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import * as connector from '../connector.js';
+// import * as connector from '../connector.js';
 
 const {Schema} = mongoose;
 
