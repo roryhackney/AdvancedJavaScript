@@ -31,7 +31,7 @@ app.get('/', (req, res, next) => {
 
 app.get('/about', (req, res) => {
     res.type('text/plain');
-    res.send("Rory Hackney is a web developer, programmer, and artist from Seattle, Washington. They enjoy kissing cats, drawing comics, and being too anxious to function.");
+    res.send("Rory Hackney is a web developer, programmer, and artist from Seattle, Washington. They're passionate about making the web more accessible by creating intuitive, mobile friendly, quality websites that combine functionality with creativity. They have a Certificate in Web Development, an art degree, and are currently studying programming while looking for their first professional tech job. In their free time, they enjoy making art, petting cats, and learning more about tech every day.");
 });
 
 app.get('/detail', (req, res, next) => {

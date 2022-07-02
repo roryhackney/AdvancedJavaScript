@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roryhackney/it122.git"
+    "url": "git+https://github.com/roryhackney/AdvancedJavaScript.git"
   },
   "author": "Rory Hackney",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/roryhackney/it122/issues"
+    "url": "https://github.com/roryhackney/AdvancedJavaScript/issues"
   },
-  "homepage": "https://github.com/roryhackney/it122#readme",
+  "homepage": "https://github.com/roryhackney/AdvancedJavaScript#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
