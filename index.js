@@ -31,8 +31,8 @@ app.get('/', (req, res, next) => {
 
 app.get('/testing', (req, res, next) => {
     res.type('text/html');
-    Dinosaur.find({}).then((dinos) => {
-        res.render('homestatic', {dinos: JSON.stringify(dinos)});
+    Dinosaur.find({}).lean().then((dinos) => {
+        res.render('home', {dinos});
     }).catch(err => next(err));
 });
 
