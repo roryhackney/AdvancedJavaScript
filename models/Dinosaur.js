@@ -3,8 +3,8 @@ import * as connector from '../connector.js';
 
 const {Schema} = mongoose;
 
-mongoose.connect(connector.connectionString, {
-    dbName: connector.dbName,
+mongoose.connect(process.env.connectionString, {
+    dbName: process.env.dbName,
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
