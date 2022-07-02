@@ -32,7 +32,7 @@ app.get('/', (req, res, next) => {
 app.get('/testing', (req, res, next) => {
     res.type('text/html');
     Dinosaur.find({}).lean().then((dinos) => {
-        res.render('homestatic', {dinos});
+        res.render('homestatic', {dinos: JSON.stringify(dinos)});
     }).catch(err => next(err));
 });
 
