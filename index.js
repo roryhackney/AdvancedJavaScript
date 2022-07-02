@@ -29,10 +29,10 @@ app.get('/', (req, res, next) => {
     }).catch(err => next(err));
 });
 
-app.get('/testing', (req, res, next) => {
+app.get('/static', (req, res, next) => {
     res.type('text/html');
     Dinosaur.find({}).lean().then((dinos) => {
-        res.render('homestatic', {dinos: JSON.stringify(dinos)});
+        res.render('homestatic', {dinos});
     }).catch(err => next(err));
 });
 
