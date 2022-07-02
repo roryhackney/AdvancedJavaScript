@@ -10,14 +10,9 @@
         <link rel="stylesheet" href="https://it122.herokuapp.com/styles.css">
     </head>
     <body>
+        <p>This is a web app I built with JavaScript, Node, MongoDB, React, and Heroku to learn advanced JavaScript concepts and display some of my favorite dinosaurs. Try clicking your favorite dino and see how the form changes, or check out my API or normal routes!</p>
+        <p>You can find more of my work at <a href="https://www.roryhackney.com">roryhackney.com</a> or my GitHub for this project at <a href="https://www.github.com/roryhackney/AdvancedJavaScript">github.com.roryhackney/AdvancedJavaScript</a>.</p>
         <h1>Best Dinosaurs</h1>
-
-        <ul>
-            {{#each dinos}}
-            <li><a href="/detail?name={{name}}">{{name}}</a></li>
-            {{/each}}
-        </ul>
-
         <div id="root"></div>
         <script type="text/babel">
             //const dinos = {{{dinos}}};
@@ -172,6 +167,8 @@
                 document.getElementById('root')
             );
         </script>
-        
+        <a href="static">Static Version</a>
+        <a href="about">About Me</a>
+        <a href="api/dinos">API: All Dinos</a>
     </body>
 </html>

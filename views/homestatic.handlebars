@@ -1,16 +1,19 @@
 <html lang="en">
     <head>
-        <title>Best Dinosaurs</title>
+        <title>Best Dinosaurs (Static Version)</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://it122.herokuapp.com/styles.css">
     </head>
     <body>
-        <h1>Best Dinosaurs</h1>
+        <h1>Best Dinosaurs (Static Version)</h1>
         <ul>
             {{#each dinos}}
             <li><a href="/detail?name={{name}}">{{name}}</a></li>
             {{/each}}
         </ul>
+        <a href="/">Home</a>
+        <a href="about">About Me</a>
+        <a href="api/dinos">API: All Dinos</a>
     </body>
 </html>
