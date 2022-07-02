@@ -29,6 +29,13 @@ app.get('/', (req, res, next) => {
     }).catch(err => next(err));
 });
 
+app.get('/testing', (req, res, next) => {
+    res.type('text/html');
+    Dinosaur.find({}).lean().then((dinos) => {
+        res.render('home', {dinos});
+    }).catch(errb=> next(err));
+});
+
 app.get('/about', (req, res) => {
     res.type('text/plain');
     res.send("Rory Hackney is a web developer, programmer, and artist from Seattle, Washington. They're passionate about making the web more accessible by creating intuitive, mobile friendly, quality websites that combine functionality with creativity. They have a Certificate in Web Development, an art degree, and are currently studying programming while looking for their first professional tech job. In their free time, they enjoy making art, petting cats, and learning more about tech every day.");
